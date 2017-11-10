@@ -2,7 +2,7 @@
 Snake game for Python CTE mini project
 
 
-#Name of Contributors
+# Name of the contributors
 Adwait Rawat
 Sanchit Krishna
 Pratikmohan
