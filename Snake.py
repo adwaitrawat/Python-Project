@@ -16,31 +16,28 @@ BLACK = (255,255,255)
 
 class tail(object):
 
-	self.tail = []
-	self.speed_tail = []
 
-	def __init__(self,*tail):
-		for i in range(0,2):
-			self.tail[i]=tail[i]
-		self.speed_tail[0]=tail[2]
-		self.speed_tail[1]=tail[3]
-		if tail[2] >= 0 :
+
+	def __init__(self,*new_tail):
+
+		self.tail = [new_tail[0],new_tail[1]]
+		self.speed_tail = [new_tail[2],new_tail[3]]
+		if self.speed_tail[0] >= 0 :
 			self.tail[0] -= 2*pixel
-		elif tail[2] <= 0 : 
+		elif self.speed_tail[0] <= 0 : 
 			self.tail[0] += 2*pixel
-		elif tail[3] >= 0 :
+		elif self.speed_tail[1] >= 0 :
 			self.tail[1] -= 2*pixel
-		elif tail[3] <= 0 :
+		elif self.speed_tail[1] <= 0 :
 			self.tail[1] += 2*pixel
-		self.tail=tail.speed_tail
 		#graphics for the addition of new tail
 		pass	
 
 	def kill(self,head):
 		if head == self.tail:
-			return 0
+			return True
 		else:
-			return 1
+			return False
 
 	def position(self,i):
 		for j in range(0,2):
@@ -48,9 +45,9 @@ class tail(object):
 			self.tail[j]=tails[i].tail[j]
 	pass
 
-tails = []
-tails[0].tail = [490,400]
-tails[0].speed_tail = speed
+#------------------------------------------------------------class end
+
+tails = [tail(490,400,pixel,0)]
 
 def move(self):
 	for i in range (0,2):
@@ -119,16 +116,23 @@ def score():
 	pass
 
 def turn():
-	if speed[0] == 0 
+	if speed[0] == 0 :
 		tails[0].tail[1] = head[1] - 2*pixel
-	if speed[1] == 0 
+	if speed[1] == 0 :
 		tails[0].tail[0] = head[0] - 2*pixel
+
+def tail():
+	for i in range(0,len(tails)) :
+		if not tails[i].kill(head) :
+			return False
+		else :
+			return True
 
 #--------------------------------------------------------------------------------------
 #main body
 clock = pygame.time.Clock()
 display()
-while wall() and esc() and tails[i].kill(head) for i in range(0,len(tails)):
+while wall() and esc() and tail():
 	clock.tick(15)
 	direction()
 	move()
@@ -136,7 +140,7 @@ while wall() and esc() and tails[i].kill(head) for i in range(0,len(tails)):
 	for i in range(0,len(tails)-1) :
 		tails[i+1].position(i)
 	if eat() :
-		tails.append(tails[end].tail[0],tails[end].tail[1])
+		tails.append(tails[end].tail[0],tails[end].tail[1],tails[end].speed_tail[0],tails[end].speed_tail[1])
 	if eaten%3==0 :
 		speed_update()
 
