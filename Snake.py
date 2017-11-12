@@ -109,7 +109,7 @@ def direction():
 def display():
 	screen = pygame.display.set_mode(size)
 	screen.fill(BLACK)
-	pygame.draw.rect(screen, WHITE, 800000, pixel)
+	pygame.draw.rect(screen, WHITE, [0,0,1000,800], pixel)
 
 def score():
 	#score board
