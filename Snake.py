@@ -82,7 +82,7 @@ def new_food():
 	pass
 
 def esc():
-	if pygame.key.get_pressed(K_ESCAPE) == True :
+	if (pygame.key.get_pressed()[[pygame.K_ESCAPE] != 0 ] ):
 		return 0
 	else : 
 		return 1
@@ -115,13 +115,13 @@ def score():
 	#score board
 	pass
 
-def turn():
+def first_tail():
 	if speed[0] == 0 :
 		tails[0].tail[1] = head[1] - 2*pixel
 	if speed[1] == 0 :
 		tails[0].tail[0] = head[0] - 2*pixel
 
-def tail():
+def tail_cut():
 	for i in range(0,len(tails)) :
 		if not tails[i].kill(head) :
 			return False
@@ -132,11 +132,11 @@ def tail():
 #main body
 clock = pygame.time.Clock()
 display()
-while wall() and esc() and tail():
+while wall() and esc() and tail_cut():
 	clock.tick(15)
 	direction()
 	move()
-	turn()
+	first_tail()
 	for i in range(0,len(tails)-1) :
 		tails[i+1].position(i)
 	if eat() :
