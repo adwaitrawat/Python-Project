@@ -23,15 +23,15 @@ class tail(object):
 		for i in range(0,2):
 			self.tail[i]=tail[i]
 		self.speed_tail[0]=tail[2]
-		self.speed_tail[0]=tail[3]
+		self.speed_tail[1]=tail[3]
 		if tail[2] >= 0 :
-			self.tail[1] -= 2*pixel
-		elif tail[2] <= 0 : 
-			self.tail[1] += 2*pixel
-		elif tail[3] >= 0 :
 			self.tail[0] -= 2*pixel
-		elif tail[3] <= 0 :
+		elif tail[2] <= 0 : 
 			self.tail[0] += 2*pixel
+		elif tail[3] >= 0 :
+			self.tail[1] -= 2*pixel
+		elif tail[3] <= 0 :
+			self.tail[1] += 2*pixel
 		self.tail=tail.speed_tail
 		#graphics for the addition of new tail
 		pass	
@@ -59,7 +59,7 @@ def move(self):
 
 
 def wall():
-	if head[0] + pixel + 5 == 1000 or head[1] + pixel + 5 == 800 :
+	if head[0] + pixel*2 == 1000 or head[1] + pixel*2 == 800 :
 		return 0
 	else:
 		return 1
@@ -72,10 +72,11 @@ def speed_update():
 
 def eat():
 	if head == food :
-		end = len(tails)-1
 		new_food()
 		eaten+=1
-	return True
+		return True
+	else :
+		return False
 
 def new_food():
 	food[0]=random.randint(0,1000-pixel)
@@ -111,7 +112,7 @@ def direction():
 def display():
 	screen = pygame.display.set_mode(size)
 	screen.fill(BLACK)
-	pygame.draw.rect(screen, WHITE, [0, 0, 1000, 800], pixel)
+	pygame.draw.rect(screen, WHITE, 800000, pixel)
 
 def score():
 	#score board
@@ -123,13 +124,12 @@ def turn():
 	if speed[1] == 0 
 		tails[0].tail[0] = head[0] - 2*pixel
 
-clock = pygame.time.Clock()
-
+#--------------------------------------------------------------------------------------
 #main body
-while wall() and tail() and esc():
+clock = pygame.time.Clock()
+display()
+while wall() and esc() and tails[i].kill(head) for i in range(0,len(tails)):
 	clock.tick(15)
-	display()
-	turn()
 	direction()
 	move()
 	turn()
