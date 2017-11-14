@@ -12,7 +12,7 @@ GREEN = (0,255,0)
 BLUE = (0,0,255)
 YELLOW = (0,255,255)
 BLACK = (0,0,0)
-fps=[20]
+fps=[10]
 screen = pygame.display.set_mode(size)
 
 class tail(object):
@@ -20,7 +20,7 @@ class tail(object):
 
 
 	def __init__(self,*new_tail):
-		self.tail = [new_tail[0],new_tail[1]]
+		self.tail = [new_tail[0],new_tail[1],0,0]
 		self.speed_tail = [new_tail[2],new_tail[3]]
 		if self.speed_tail[0] >= 0 :
 			self.tail[0] -= 2*pixel
@@ -42,17 +42,25 @@ class tail(object):
 		for j in range(0,2):
 			self.speed_tail[j]=tails[i].speed_tail[j]
 		if self.speed_tail[0] > 0 and self.speed_tail[1] == 0 :
-			self.tail[0] = tails[i].tail[0] - 2*pixel
-			self.tail[1] = tails[i].tail[1]
+			self.tail[2] = self.tail[0]
+			self.tail[3] = self.tail[1]
+			self.tail[0] = tails[i].tail[2] - pixel
+			self.tail[1] = tails[i].tail[3]
 		elif self.speed_tail[0] < 0 and self.speed_tail[1] == 0 :
-			self.tail[0] = tails[i].tail[0] + 2*pixel
-			self.tail[1] = tails[i].tail[1]
+			self.tail[2] = self.tail[0]
+			self.tail[3] = self.tail[1]
+			self.tail[0] = tails[i].tail[2] + pixel
+			self.tail[1] = tails[i].tail[3]
 		elif self.speed_tail[1] > 0 and self.speed_tail[0] == 0 :
-			self.tail[0] = tails[i].tail[0]
-			self.tail[1] = tails[i].tail[1] - 2*pixel
+			self.tail[2] = self.tail[0]
+			self.tail[3] = self.tail[1]
+			self.tail[0] = tails[i].tail[2]
+			self.tail[1] = tails[i].tail[3] - pixel
 		elif self.speed_tail[1] < 0 and self.speed_tail[0] == 0 :
-			self.tail[0] = tails[i].tail[0]
-			self.tail[1] = tails[i].tail[1] + 2*pixel
+			self.tail[2] = self.tail[0]
+			self.tail[3] = self.tail[1]
+			self.tail[0] = tails[i].tail[2]
+			self.tail[1] = tails[i].tail[3] + pixel
 		pass
 
 tails = [tail(490,400,pixel,0)]
@@ -62,8 +70,16 @@ def display():
 	pygame.draw.rect(screen, WHITE, (0,0,1000,800), pixel)
 	pygame.draw.rect(screen, GREEN, (head[0]-pixel,head[1]-pixel,2*pixel,2*pixel), 0)
 	pygame.draw.circle(screen, YELLOW, (food[0], food[1]), pixel)
-	for i in range(0,len(tails)) :
-		pygame.draw.circle(screen, GREEN, (tails[i].tail[0], tails[i].tail[1]), pixel)
+	pygame.draw.circle(screen, GREEN, (tails[0].tail[0], tails[0].tail[1]), pixel)
+	for i in range(1,len(tails)) :
+		if tails[i].speed_tail[0] > 0 and tails[i].speed_tail[1] == 0 :
+			pygame.draw.circle(screen, GREEN, (tails[i].tail[0], tails[i].tail[1]), pixel)
+		if tails[i].speed_tail[1] > 0 and tails[i].speed_tail[0] == 0 :
+			pygame.draw.circle(screen, GREEN, (tails[i].tail[0], tails[i].tail[1]), pixel)
+		if tails[i].speed_tail[0] < 0 and tails[i].speed_tail[1] == 0 :
+			pygame.draw.circle(screen, GREEN, (tails[i].tail[0], tails[i].tail[1]), pixel)
+		if tails[i].speed_tail[1] < 0 and tails[i].speed_tail[0] == 0 :
+			pygame.draw.circle(screen, GREEN, (tails[i].tail[0], tails[i].tail[1]), pixel)
 	pygame.display.update()
 
 def direction():
@@ -122,6 +138,8 @@ def direction():
 					tails[0].speed_tail[i] = speed[i]
 		if event.key == pygame.K_ESCAPE:
 			pygame.quit()
+		if event.key == pygame.K_SPACE:
+			pygame.time.wait(5000)
 	pass
 
 
@@ -135,21 +153,30 @@ def move():
 			pygame.quit()
 		else :
 			if speed[0] > 0 :
-				tails[0].tail[0] = head[0] - 2*pixel
-				tails[0].tail[1] = head[1]
+				tails[0].tail[2] = tails[0].tail[0]
+				tails[0].tail[3] = tails[0].tail[1]
+				tails[0].tail[0] = head[2] - pixel
+				tails[0].tail[1] = head[3]
 			elif speed[0] < 0:
-				tails[0].tail[0] = head[0] + 2*pixel
-				tails[0].tail[1] = head[1]
+				tails[0].tail[2] = tails[0].tail[0]
+				tails[0].tail[3] = tails[0].tail[1]
+				tails[0].tail[0] = head[2] + pixel
+				tails[0].tail[1] = head[3]
 			elif speed[1] > 0 :
-				tails[0].tail[0] = head[0]
-				tails[0].tail[1] = head[1] - 2*pixel
+				tails[0].tail[2] = tails[0].tail[0]
+				tails[0].tail[3] = tails[0].tail[1]
+				tails[0].tail[0] = head[2]
+				tails[0].tail[1] = head[3] - pixel
 			elif speed[1] < 0:
-				tails[0].tail[0] = head[0]
-				tails[0].tail[1] = head[1] + 2*pixel
+				tails[0].tail[2] = tails[0].tail[0]
+				tails[0].tail[3] = tails[0].tail[1]
+				tails[0].tail[0] = head[2]
+				tails[0].tail[1] = head[3] + pixel
 			for j in range(1,len(tails)) :
 				tails[j].position(j-1)
-		print(tails[len(tails)-1].speed_tail)
-		pygame.display.update()
+		for j in range(0,len(tails)):
+			print(tails[j].tail)
+	pygame.display.update()
 	pass
 
 
