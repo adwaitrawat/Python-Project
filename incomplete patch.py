@@ -16,22 +16,42 @@ fps=15
 
 def direction():
 	if event.type == pygame.KEYDOWN :
-		if event.key == pygame.K_DOWN and speed[1] == 0 :
-			temp = speed[0]
-			speed[0] = 0
-			speed[1] = temp
-		if event.key == pygame.K_UP and speed[1] == 0 :
-			temp = speed[0]
-			speed[0] = 0
-			speed[1] = -1*temp
-		if event.key == pygame.K_RIGHT and speed[0] == 0 :
-			temp = speed[1]
-			speed[1] = 0
-			speed[0] = temp
-		if event.key == pygame.K_LEFT and speed[0] == 0:
-			temp = speed[1]
-			speed[1] = 0
-			speed[0] = -1*temp
+		if speed[0] > 0 and speed[1] == 0 :
+			if event.key == pygame.K_UP:
+				temp = speed[0]
+				speed[0] = 0
+				speed[1] = -1*temp
+			if event.key == pygame.K_DOWN :
+				temp = speed[0]
+				speed[0] = 0
+				speed[1] = temp
+		if speed[1] > 0 and speed[0] == 0 :
+			if event.key == pygame.K_RIGHT :
+				temp = speed[1]
+				speed[1] = 0
+				speed[0] = temp
+			if event.key == pygame.K_LEFT : 
+				temp = speed[1]
+				speed[1] = 0
+				speed[0] = -1*temp
+		if speed[0] < 0 and speed[1] == 0 :
+			if event.key == pygame.K_UP:
+				temp = speed[0]
+				speed[0] = 0
+				speed[1] = temp
+			if event.key == pygame.K_DOWN :
+				temp = speed[0]
+				speed[0] = 0
+				speed[1] = -1*temp
+		if speed[1] < 0 and speed[0] == 0 :
+			if event.key == pygame.K_RIGHT :
+				temp = speed[1]
+				speed[1] = 0
+				speed[0] = -1*temp
+			if event.key == pygame.K_LEFT : 
+				temp = speed[1]
+				speed[1] = 0
+				speed[0] = temp
 		if event.key == pygame.K_ESCAPE:
 			pygame.quit()
 	pass
@@ -53,7 +73,7 @@ def move():
 
 
 def wall():
-	if head[0] + pixel >= 1000 or head[1] + pixel >= 800 or head[0]  <= pixel*2 or head[1] + pixel <= pixel*2 :
+	if head[0] + pixel >= 1000 or head[1] + pixel >= 800 or head[0]  <= pixel*2 - 2 or head[1] + pixel <= pixel*2 - 2 :
 		return 0
 	else:
 		return 1
@@ -91,7 +111,7 @@ move()
 while wall() :
 	for event in pygame.event.get():
 		clock.tick(fps)
-		threading.Thread(target=move).start()
-		threading.Thread(target=direction).start()
-		threading.Thread(target=eat).start()
+		move()
+		direction()
+		eat()
 		
