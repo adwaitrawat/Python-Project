@@ -177,9 +177,16 @@ def direction():
 			esc_rect.centery = 400
 			screen.blit(esc, esc_rect)
 			pygame.display.update()
-			pygame.time.wait(2000)
+			pygame.time.wait(1000)
 			pygame.quit()
 		elif event.key == pygame.K_SPACE:
+			p = pygame.font.SysFont("comicsans",100)
+			pau = p.render("PAUSING FOR 5 SEC",True,RED)
+			pau_rect = pau.get_rect()
+			pau_rect.centerx = 500
+			pau_rect.centery = 400
+			screen.blit(pau, pau_rect)
+			pygame.display.update()
 			pygame.time.wait(5000)
 		elif event.key == pygame.K_a:
 			cheat_speed(1)
@@ -204,7 +211,7 @@ def move():
 		hea_rect.centery = 400
 		screen.blit(hea, hea_rect)
 		pygame.display.update()
-		pygame.time.wait(2000)
+		pygame.time.wait(500)
 		pygame.quit()	
 	else :
 		tails[0].tail[2] = tails[0].tail[0]
@@ -236,7 +243,7 @@ def kill():
 				kill_rect.centery = 400
 				screen.blit(kill, kill_rect)
 				pygame.display.update()
-				pygame.time.wait(2000)
+				pygame.time.wait(500)
 				pygame.quit()
 			else :
 				for j in range(len(tails)-1,i+1,-1):
@@ -248,7 +255,7 @@ def kill():
 						killl_rect.centery = 400
 						screen.blit(killl, killl_rect)
 						pygame.display.update()
-						pygame.time.wait(2000)
+						pygame.time.wait(500)
 						pygame.quit()
 	else : 
 		for i in range(1,len(tails)):
@@ -267,7 +274,7 @@ def eat():
 		if food[0] <= head[0] + pixel and food[1] <= head[1] + pixel and food[0] >= head[2] - pixel and food[1] >= head[3] - pixel :
 			score()
 			end = len(tails) - 1
-			new_food(random.randint(2*pixel,1000-pixel*2),random.randint(2*pixel,800-pixel*2))
+			new_food(10*random.randint(2*pixel/10,100-(pixel*2/10)),10*random.randint(2*pixel/10,80-(pixel*2/10)))
 			eaten[0] += 1
 			tails.append(tail(tails[end].tail[0],tails[end].tail[1],tails[end].speed_tail[0],tails[end].speed_tail[1]))
 			pygame.draw.circle(screen, GREEN, (tails[end].tail[0], tails[end].tail[1]), pixel)
@@ -278,7 +285,7 @@ def eat():
 		if food[0] <= head[2] + pixel and food[1] <= head[3] + pixel and food[0] >= head[0] - pixel and food[1] >= head[1] - pixel :
 			score()
 			end = len(tails) - 1
-			new_food(random.randint(2*pixel,1000-pixel*2),random.randint(2*pixel,800-pixel*2))
+			new_food(10*random.randint(2*pixel/10,100-(pixel*2/10)),10*random.randint(2*pixel/10,80-(pixel*2/10)))
 			eaten[0] += 1
 			tails.append(tail(tails[end].tail[0],tails[end].tail[1],tails[end].speed_tail[0],tails[end].speed_tail[1]))
 			pygame.draw.circle(screen, GREEN, (tails[end].tail[0], tails[end].tail[1]), pixel)
@@ -341,18 +348,18 @@ def cheat_speed(i):
 
 def cheat_food():
 	if head[0] < 500 and head[1] < 400 :
-		new_food(random.randint(head[0],500),random.randint(head[1],400))
+		new_food(10*random.randint(head[0]/10,50),10*random.randint(head[1]/10,40))
 	elif head[0] > 500 and head[1] < 400 :
-		new_food(random.randint(500,head[0]),random.randint(head[1],400))
+		new_food(10*random.randint(50,head[0]/10),10*random.randint(head[1]/10,40))
 	elif head[0] < 500 and head[1] > 400 :
-		new_food(random.randint(head[0],500),random.randint(400,head[1]))
+		new_food(10*random.randint(head[0]/10,50),10*random.randint(40,head[1]/10))
 	elif head[0] >= 500 and head[1] >= 400 :
-		new_food(random.randint(500,head[0]),random.randint(400,head[1]))
+		new_food(10*random.randint(50,head[0]/10),10*random.randint(40,head[1]/10))
 
 def cheat_eat(i):
 	if i > 0 :
 		end = len(tails) - 1
-		new_food(random.randint(2*pixel,1000-pixel*2),random.randint(2*pixel,800-pixel*2))
+		new_food(10*random.randint(2*pixel/10,100-(pixel*2/10)),10*random.randint(2*pixel/10,80-(pixel*2/10)))
 		eaten[0] += 1
 		pd[0] += 1
 		tails.append(tail(tails[end].tail[0],tails[end].tail[1],tails[end].speed_tail[0],tails[end].speed_tail[1]))
@@ -360,7 +367,7 @@ def cheat_eat(i):
 		pygame.display.update()
 	else :
 		end = len(tails) - 1
-		new_food(random.randint(2*pixel,1000-pixel*2),random.randint(2*pixel,800-pixel*2))
+		new_food(10*random.randint(2*pixel/10,100-(pixel*2/10)),10*random.randint(2*pixel/10,80-(pixel*2/10)))
 		pd[0] += 1
 		tails.append(tail(tails[end].tail[0],tails[end].tail[1],tails[end].speed_tail[0],tails[end].speed_tail[1]))
 		pygame.draw.circle(screen, GREEN, (tails[end].tail[0], tails[end].tail[1]), pixel)
@@ -380,12 +387,12 @@ def cheat():
 	cheatt_rect.centery = 500
 	screen.blit(cheatt, cheatt_rect)
 	pygame.display.update()
-	pygame.time.wait(3000)
+	pygame.time.wait(1000)
 	pygame.quit()
 
 
 score()
-new_food(random.randint(2*pixel,1000-pixel*2),random.randint(2*pixel,800-pixel*2))
+new_food(10*random.randint(2*pixel/10,100-(pixel*2/10)),10*random.randint(2*pixel/10,80-(pixel*2/10)))
 while True :
 	display()
 	clock.tick(fps[0])	
