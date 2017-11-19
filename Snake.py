@@ -390,7 +390,15 @@ def cheat():
 	pygame.time.wait(1000)
 	pygame.quit()
 
-
+def text_display(text,x,y,size,color):
+	s= pygame.font.SysFont("comicsans",size)
+	s_surface = s.render(text,True,color)
+	surface_rect = s_surface.get_rect()
+	surface_rect.centerx = x
+	surface_rect.centery = y
+	screen.blit(s_surface, surface_rect)
+	pygame.display.update()
+	
 score()
 new_food(10*random.randint(2*pixel/10,100-(pixel*2/10)),10*random.randint(2*pixel/10,80-(pixel*2/10)))
 while True :
