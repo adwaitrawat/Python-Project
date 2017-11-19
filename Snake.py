@@ -69,6 +69,12 @@ def display():
 	snake_rect.centerx = 750
 	snake_rect.centery = 900
 	screen.blit(snake_dis, snake_rect)
+	by = pygame.font.SysFont("comicsans",20)
+	by_dis = by.render(("By - Adwait Rawat and Team"),True,GREEN)
+	by_rect = by_dis.get_rect()
+	by_rect.centerx = 850
+	by_rect.centery = 940
+	screen.blit(by_dis, by_rect)
 	if eaten[0] >= high_score[0] :
 		s = pygame.font.SysFont("comicsans",50)
 		score = s.render("SCORE : "+str(eaten[0]),True,GREEN)
