@@ -302,42 +302,44 @@ def new_food(i,j):
 def score():
 	high = open("score.dat","r")
 	global high_score
-	high_score = [int(high.read(10))]
-	high.close()
-	high = open("score.dat","w")
-	pygame.draw.rect(screen , RED ,[0,800,500,200] ,pixel)
-	if eaten[0] >= high_score[0] :
-		s = pygame.font.SysFont("comicsans",50)
-		score = s.render("SCORE : "+str(eaten[0]),True,GREEN)
-		score_rect = score.get_rect()
-		score_rect.centerx = 175
-		score_rect.centery = 875
-		screen.blit(score, score_rect)
-		high_score = eaten
-		high.write(str(eaten[0]))
-		high_s = pygame.font.SysFont("comicsans",50)
-		high_s = high_s.render("HIGH SCORE : "+str(high_score[0]),True,GREEN)
-		hs_rect = high_s.get_rect()
-		hs_rect.centerx = 200
-		hs_rect.centery = 925
-		screen.blit(high_s, hs_rect)
-		pygame.display.update()
-	else :
-		high.write(str(high_score[0]))
-		s = pygame.font.SysFont("comicsans",50)
-		score = s.render("SCORE : "+str(eaten[0]),True,WHITE)
-		score_rect = score.get_rect()
-		score_rect.centerx = 200
-		score_rect.centery = 875
-		screen.blit(score, score_rect)
-		high_s = pygame.font.SysFont("comicsans",50)
-		high_s = high_s.render("HIGH SCORE : "+str(high_score[0]),True,WHITE)
-		hs_rect = high_s.get_rect()
-		hs_rect.centerx = 175
-		hs_rect.centery = 925
-		screen.blit(high_s, hs_rect)
-		pygame.display.update()
-	high.close()
+	try:
+		high_score = [int(high.read(10))]
+	except ValueError :
+		high.close()
+		high = open("score.dat","w")
+		pygame.draw.rect(screen , RED ,[0,800,500,200] ,pixel)
+		if eaten[0] >= high_score[0] :
+			s = pygame.font.SysFont("comicsans",50)
+			score = s.render("SCORE : "+str(eaten[0]),True,GREEN)
+			score_rect = score.get_rect()
+			score_rect.centerx = 175
+			score_rect.centery = 875
+			screen.blit(score, score_rect)
+			high_score = eaten
+			high.write(str(eaten[0]))
+			high_s = pygame.font.SysFont("comicsans",50)
+			high_s = high_s.render("HIGH SCORE : "+str(high_score[0]),True,GREEN)
+			hs_rect = high_s.get_rect()
+			hs_rect.centerx = 200
+			hs_rect.centery = 925
+			screen.blit(high_s, hs_rect)
+			pygame.display.update()
+		else :
+			high.write(str(high_score[0]))
+			s = pygame.font.SysFont("comicsans",50)
+			score = s.render("SCORE : "+str(eaten[0]),True,WHITE)
+			score_rect = score.get_rect()
+			score_rect.centerx = 200
+			score_rect.centery = 875
+			screen.blit(score, score_rect)
+			high_s = pygame.font.SysFont("comicsans",50)
+			high_s = high_s.render("HIGH SCORE : "+str(high_score[0]),True,WHITE)
+			hs_rect = high_s.get_rect()
+			hs_rect.centerx = 175
+			hs_rect.centery = 925
+			screen.blit(high_s, hs_rect)
+			pygame.display.update()
+		high.close()
 
 
 def cheat_speed(i):
