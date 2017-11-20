@@ -6,6 +6,7 @@ size = width, height = 100*(current.current_h//100), 100*(current.current_h//100
 ss = 10*(height//100)
 pixel = 5
 d = 2
+lag = [0]
 pd = [2]
 high_score = [0]
 speed = [pixel*2,0]
@@ -66,14 +67,14 @@ def display():
 	pygame.draw.circle(screen, GREEN, (tails[0].tail[0], tails[0].tail[1]), pixel)
 	pygame.draw.rect(screen , RED ,[0,40*(height//50),10*(width//20),10*(height//50)] ,pixel)
 	pygame.draw.rect(screen , RED ,[10*(width//20),40*(height//50),10*(width//20),10*(height//50)] ,pixel)
-	text_display("SNAKES",30*(width//40), 90*(height//100),10*(height//100),GREEN)
-	text_display("By - Adwait Rawat and Team",10*(3*(width//40)+(width//200)),90*(height//100) + 10*(height//200),10*(height//300),GREEN)
+	text_display("SNAKES",30*(width//40), 90*(height//100),10*(height//65),GREEN)
+	text_display("By - Adwait Rawat and Team",10*(3*(width//40)+(width//200)),90*(height//100) + 10*(height//200),10*(height//300),GREEN,False,True)
 	if eaten[0] >= high_score[0] :
-		text_display("SCORE : "+str(eaten[0]),10*(width//40),10*(4*(height//50) + (height//100)),3*ss//4,GREEN)
-		text_display("HIGH SCORE : "+str(high_score[0]),10*(width//40),10*(4*(height//50) + (height//100)) + 3*ss//4,3*ss//4,GREEN)
+		text_display("SCORE : "+str(eaten[0]),10*(width//40),height - height//15 - 3*ss//4,3*ss//4,GREEN)
+		text_display("HIGH SCORE : "+str(high_score[0]),10*(width//40),height - height//15,3*ss//4,GREEN)
 	else :
-		text_display("SCORE : "+str(eaten[0]),10*(width//40),10*(4*(height//50) + (height//100)),3*ss//4,WHITE)
-		text_display("HIGH SCORE : "+str(high_score[0]),10*(width//40),10*(4*(height//50) + (height//100)) + 3*ss//4,3*ss//4,WHITE)
+		text_display("SCORE : "+str(eaten[0]),10*(width//40),height - height//15 - 3*ss//4,3*ss//4,WHITE)
+		text_display("HIGH SCORE : "+str(high_score[0]),10*(width//40),height - height//15,3*ss//4,WHITE)
 	for i in range(1,len(tails)) :
 		if tails[i].speed_tail[0] > 0 :
 			pygame.draw.circle(screen, GREEN, (tails[i].tail[0], tails[i].tail[1]), pixel)
@@ -159,17 +160,19 @@ def direction():
 			cheat_eat(-1)
 		elif event.key == pygame.K_f:
 			cheat_food()
-		elif not (event.key == pygame.K_UP or event.key == pygame.K_DOWN or event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_w or event.key == pygame.K_q) :  
+		elif event.key == pygame.K_l:
+			lag[0] += 1
+		elif not (event.key == pygame.K_UP or event.key == pygame.K_DOWN or event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_w or event.key == pygame.K_q or event.key == pygame.K_l ) :  
 			cheat()
-def text_display(text,x,y,size,color):
-	s= pygame.font.SysFont("comicsans",size)
+
+def text_display(text,x,y,size,color,bold = False,italic = False):
+	s= pygame.font.SysFont("Comic Sans MS",size,bold,italic)
 	s_surface = s.render(text,True,color)
 	surface_rect = s_surface.get_rect()
 	surface_rect.centerx = x
 	surface_rect.centery = y
 	screen.blit(s_surface, surface_rect)
 	
-
 def move():
 	for i in range (0,2):
 		head[i+2] = head[i]
@@ -178,7 +181,15 @@ def move():
 		text_display("BUMPED INTO THE WALL",10*(width//20),40*(height//100),10*(height//100),RED)
 		pygame.display.update()
 		pygame.time.wait(500)
-		pygame.quit()	
+		if lag[0] > 0 :
+			text_display("MAGIC!",10*(width//20),40*(height//100),10*(height//100),RED)
+			pygame.display.update()
+			pygame.time.wait(1000)
+			lag[0] -= 1
+			if (head[0] >= width + pixel or head[1] >= (4*(height/5)) + pixel or head[0]  <= pixel  or head[1] <= pixel) :
+				pygame.quit()
+		else:
+			pygame.quit()	
 	else :
 		tails[0].tail[2] = tails[0].tail[0]
 		tails[0].tail[3] = tails[0].tail[1]
