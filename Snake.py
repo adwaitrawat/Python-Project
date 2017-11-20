@@ -66,44 +66,14 @@ def display():
 	pygame.draw.circle(screen, GREEN, (tails[0].tail[0], tails[0].tail[1]), pixel)
 	pygame.draw.rect(screen , RED ,[0,40*(height//50),10*(width//20),10*(height//50)] ,pixel)
 	pygame.draw.rect(screen , RED ,[10*(width//20),40*(height//50),10*(width//20),10*(height//50)] ,pixel)
-	snake = pygame.font.SysFont("comicsans",10*(height//100))
-	snake_dis = snake.render(("SNAKES"),True,GREEN)
-	snake_rect = snake_dis.get_rect()
-	snake_rect.centerx = 30*(width//40)
-	snake_rect.centery = 90*(height//100)
-	screen.blit(snake_dis, snake_rect)
-	by = pygame.font.SysFont("comicsans",10*(height//300))
-	by_dis = by.render(("By - Adwait Rawat and Team"),True,GREEN)
-	by_rect = by_dis.get_rect()
-	by_rect.centerx = 10*(3*(width//40)+(width//200))
-	by_rect.centery = 90*(height//100) + 10*(height//200)
-	screen.blit(by_dis, by_rect)
+	text_display("SNAKES",30*(width//40), 90*(height//100),10*(height//100),GREEN)
+	text_display("By - Adwait Rawat and Team",10*(3*(width//40)+(width//200)),90*(height//100) + 10*(height//200),10*(height//300),GREEN)
 	if eaten[0] >= high_score[0] :
-		s = pygame.font.SysFont("comicsans",3*ss//4)
-		score = s.render("SCORE : "+str(eaten[0]),True,GREEN)
-		score_rect = score.get_rect()
-		score_rect.centerx = 10*(width//40)
-		score_rect.centery = 10*(4*(height//50) + (height//100))
-		screen.blit(score, score_rect)
-		high_s = pygame.font.SysFont("comicsans",3*ss//4)
-		high_s = high_s.render("HIGH SCORE : "+str(high_score[0]),True,GREEN)
-		hs_rect = high_s.get_rect()
-		hs_rect.centerx = 10*(width//40)
-		hs_rect.centery = 10*(4*(height//50) + (height//100)) + 3*ss//4
-		screen.blit(high_s, hs_rect)
+		text_display("SCORE : "+str(eaten[0]),10*(width//40),10*(4*(height//50) + (height//100)),3*ss//4,GREEN)
+		text_display("HIGH SCORE : "+str(high_score[0]),10*(width//40),10*(4*(height//50) + (height//100)) + 3*ss//4,3*ss//4,GREEN)
 	else :
-		s = pygame.font.SysFont("comicsans",3*ss//4)
-		score = s.render("SCORE : "+str(eaten[0]),True,WHITE)
-		score_rect = score.get_rect()
-		score_rect.centerx = 10*(width//40)
-		score_rect.centery = 10*(4*(height//50) + (height//100))
-		screen.blit(score, score_rect)
-		high_s = pygame.font.SysFont("comicsans",3*ss//4)
-		high_s = high_s.render("HIGH SCORE : "+str(high_score[0]),True,WHITE)
-		hs_rect = high_s.get_rect()
-		hs_rect.centerx = 10*(width//40)
-		hs_rect.centery = 10*(4*(height//50) + (height//100)) + 3*ss//4
-		screen.blit(high_s, hs_rect)
+		text_display("SCORE : "+str(eaten[0]),10*(width//40),10*(4*(height//50) + (height//100)),3*ss//4,WHITE)
+		text_display("HIGH SCORE : "+str(high_score[0]),10*(width//40),10*(4*(height//50) + (height//100)) + 3*ss//4,3*ss//4,WHITE)
 	for i in range(1,len(tails)) :
 		if tails[i].speed_tail[0] > 0 :
 			pygame.draw.circle(screen, GREEN, (tails[i].tail[0], tails[i].tail[1]), pixel)
@@ -173,22 +143,12 @@ def direction():
 		if keys[pygame.K_q] and keys[pygame.K_w]:
 			cheat_eat(1)
 		elif event.key == pygame.K_ESCAPE:
-			e = pygame.font.SysFont("comicsans",10*(height//100))
-			esc = e.render("QUITTING",True,RED)
-			esc_rect = esc.get_rect()
-			esc_rect.centerx = 10*(width//20)
-			esc_rect.centery = 40*(height//100)
-			screen.blit(esc, esc_rect)
+			text_display("QUITTING",10*(width//20),40*(height//100),10*(height//100),RED)
 			pygame.display.update()
 			pygame.time.wait(1000)
 			pygame.quit()
 		elif event.key == pygame.K_SPACE:
-			p = pygame.font.SysFont("comicsans",10*(height//100))
-			pau = p.render("PAUSING FOR 5 SEC",True,RED)
-			pau_rect = pau.get_rect()
-			pau_rect.centerx = 10*(width//20)
-			pau_rect.centery = 40*(height//100)
-			screen.blit(pau, pau_rect)
+			text_display("PAUSING FOR 5 SEC", 10*(width//20), 40*(height//100), 10*(height//100),RED)
 			pygame.display.update()
 			pygame.time.wait(5000)
 		elif event.key == pygame.K_a:
@@ -201,18 +161,21 @@ def direction():
 			cheat_food()
 		elif not (event.key == pygame.K_UP or event.key == pygame.K_DOWN or event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_w or event.key == pygame.K_q) :  
 			cheat()
+def text_display(text,x,y,size,color):
+	s= pygame.font.SysFont("comicsans",size)
+	s_surface = s.render(text,True,color)
+	surface_rect = s_surface.get_rect()
+	surface_rect.centerx = x
+	surface_rect.centery = y
+	screen.blit(s_surface, surface_rect)
+	
 
 def move():
 	for i in range (0,2):
 		head[i+2] = head[i]
 		head[i]+=speed[i]
 	if head[0] >= width + pixel or head[1] >= (4*(height/5)) + pixel or head[0]  <= pixel  or head[1] <= pixel :
-		h = pygame.font.SysFont("comicsans",10*(height//100))
-		hea = h.render("BUMPED INTO THE WALL",True,RED)
-		hea_rect = hea.get_rect()
-		hea_rect.centerx = 10*(width//20)
-		hea_rect.centery = 40*(height//100)
-		screen.blit(hea, hea_rect)
+		text_display("BUMPED INTO THE WALL",10*(width//20),40*(height//100),10*(height//100),RED)
 		pygame.display.update()
 		pygame.time.wait(500)
 		pygame.quit()	
@@ -233,30 +196,19 @@ def move():
 			tails[0].tail[1] = head[3] 
 		for j in range(1,len(tails)) :
 			tails[j].position(j-1)
-	pygame.display.update()
 
 def kill():
 	if speed[0] == 0 :
 		for i in range(1,len(tails)):
 			if head[0] <= tails[i].tail[0] + d and head[1] <= tails[i].tail[1] + d and head[0] >= tails[i].tail[0] - d and head[1] >= tails[i].tail[1] - d :
-				k = pygame.font.SysFont("comicsans",10*(height//100))
-				kill = k.render("BIT YOURSELF TOO BAD",True,RED)
-				kill_rect = kill.get_rect()
-				kill_rect.centerx = 10*(width//20)
-				kill_rect.centery = 40*(height//100)
-				screen.blit(kill, kill_rect)
+				text_display("BIT YOURSELF TOO BAD",10*(width//20),40*(height//100),10*(height//100),RED)
 				pygame.display.update()
 				pygame.time.wait(500)
 				pygame.quit()
 			else :
 				for j in range(len(tails)-1,i+1,-1):
 					if tails[i].tail[0] <= tails[j].tail[0] + d and tails[i].tail[1] <= tails[j].tail[1] + d and tails[i].tail[0] >= tails[j].tail[0] - d and tails[i].tail[1] >= tails[j].tail[1] - d :
-						ki = pygame.font.SysFont("comicsans",10*(height//100))
-						killl = ki.render("BIT YOURSELF TOO BAD",True,RED)
-						killl_rect = killl.get_rect()
-						killl_rect.centerx = 10*(width//20)
-						killl_rect.centery = 40*(height//100)
-						screen.blit(killl, killl_rect)
+						text_display("BIT YOURSELF TOO BAD",10*(width//20),40*(height//100),10*(height//100),RED)
 						pygame.display.update()
 						pygame.time.wait(500)
 						pygame.quit()
@@ -350,18 +302,8 @@ def cheat_eat(i):
 		pygame.display.update()
 
 def cheat():
-	c = pygame.font.SysFont("comicsans",10*(height//100))
-	cheat = c.render("OOPS PRESSED",True,RED)
-	cheat_rect = cheat.get_rect()
-	cheat_rect.centerx = 10*(width//20)
-	cheat_rect.centery = 40*(height//100)
-	screen.blit(cheat, cheat_rect)
-	ch = pygame.font.SysFont("comicsans",10*(height//100))
-	cheatt = ch.render("THE WRONG BUTTON",True,RED)
-	cheatt_rect = cheatt.get_rect()
-	cheatt_rect.centerx = 10*(width//20)
-	cheatt_rect.centery = 10*(height//20)
-	screen.blit(cheatt, cheatt_rect)
+	text_display("OOPS PRESSED",10*(width//20),40*(height//100),10*(height//100),RED)
+	text_display("THE WRONG BUTTON",10*(width//20),10*(height//20),10*(height//100),RED)
 	pygame.display.update()
 	pygame.time.wait(1000)
 	pygame.quit()
